@@ -2,6 +2,11 @@ const Telegraf = require('telegraf')
 
 const bot = new Telegraf('985672071:AAHJXvPK1EUuPl9Nxv1evMDXCCcLKUC8qzY')
 
+
+bot.use((ctx) => {
+    console.log(ctx.message)
+})
+
 bot.start((ctx) => ctx.reply('Welcome'))
 bot.help((ctx) => ctx.reply('Send me a sticker'))
 bot.on('sticker', (ctx) => ctx.reply('👍'))
