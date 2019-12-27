@@ -14,21 +14,11 @@ bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
 bot.command('okex', Telegraf.reply('https://www.okex.com'))
 
-bot.context.db = {
-    getScores: () => { return 42 }
-}
 
-bot.on('text', (ctx) => {
-    const score = ctx.db.getScores(ctx.message.from.username)
-    return ctx.reply(`${ctx.message.from.username}: ${score}`)
+bot.command('p', async (ctx) => {
+    console.log(ctx.message, ctx.chat);
+    const { reply } = ctx;
+    reply();
 })
 
-bot.command('oldschool', (ctx) => ctx.reply('Hello'))
-bot.command('modern', ({ reply }) => reply('Yo'))
-bot.command('hipster', Telegraf.reply('λ'))
-bot.command('a', Telegraf.reply('λ a'))
-bot.command('b', Telegraf.reply('λ b'))
-bot.command('c', Telegraf.reply('λ c'))
-bot.command('d', Telegraf.reply('λ d'))
-bot.command('e', Telegraf.reply('λ e'))
 bot.launch()
