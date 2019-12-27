@@ -30,9 +30,12 @@ bot.command('p', async (ctx) => {
     const coin = text.slice(2);
 
     const api = `${baseUrl}/v2/spot/markets/ticker?symbol=${coin.toUpperCase()}_USDT`;
+    console.log(api);
+   
     const response = await got.get(api, {
         responseType: 'json'
     });
+    
     console.log(response.body);
     const data = response.body.data;
     
