@@ -18,7 +18,7 @@ bot.command('okex', Telegraf.reply('https://www.okex.com'))
 bot.command('p', async (ctx) => {
     console.log(ctx.message, ctx.chat);
     const { reply } = ctx;
-    reply();
+    reply('dddd');
 })
 
 bot.launch()
