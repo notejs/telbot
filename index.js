@@ -27,7 +27,7 @@ bot.command('p', async (ctx) => {
 
     text = text.trim().replace(/\s*/, '');
 
-    const coin = text.slice(2);
+    const coin = text.slice(2).trim();
 
     const api = `${baseUrl}/v2/spot/markets/ticker?symbol=${coin.toUpperCase()}_USDT`;
     console.log(api);
