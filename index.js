@@ -35,7 +35,7 @@ bot.command('p', async (ctx) => {
     });
     const data = response.body.data;
     
-    ctx.replyWithHTML(`<b>last: ${data.close}<b/><a href="${baseUrl}/spot/trade/${coin}_usdt">Trade on OKEx</a>`);
+    ctx.replyWithHTML(`<b>last: ${data.close}</b><a href="${baseUrl}/spot/trade/${coin}_usdt">Trade on OKEx</a>`);
 })
 
 bot.launch();
