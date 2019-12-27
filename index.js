@@ -4,7 +4,7 @@ const bot = new Telegraf('985672071:AAHJXvPK1EUuPl9Nxv1evMDXCCcLKUC8qzY')
 
 
 bot.use((ctx) => {
-    console.log(ctx.message)
+    // console.log(ctx.message)
 })
 
 bot.start((ctx) => ctx.reply('Welcome'))
@@ -13,6 +13,15 @@ bot.on('sticker', (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
 bot.command('okex', Telegraf.reply('https://www.okex.com'))
+
+bot.context.db = {
+    getScores: () => { return 42 }
+}
+
+bot.on('text', (ctx) => {
+    const score = ctx.db.getScores(ctx.message.from.username)
+    return ctx.reply(`${ctx.message.from.username}: ${score}`)
+})
 
 bot.command('oldschool', (ctx) => ctx.reply('Hello'))
 bot.command('modern', ({ reply }) => reply('Yo'))
