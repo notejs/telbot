@@ -1,12 +1,12 @@
-const Telegraf = require('telegraf')
+const Telegraf = require('telegraf');
+const got = require('got');
 
 const bot = new Telegraf('985672071:AAHJXvPK1EUuPl9Nxv1evMDXCCcLKUC8qzY')
 
 
 bot.use((ctx, next) => {
-    // console.log(ctx.message)
     return next();
-})
+});
 
 bot.start((ctx) => ctx.reply('Welcome'));
 bot.help((ctx) => ctx.reply('Send me a sticker'));
@@ -15,10 +15,27 @@ bot.hears('hi', (ctx) => ctx.reply('Hey there'));
 
 bot.command('okex', Telegraf.reply('https://www.okex.com'));
 
+const baseUrl = 'https://www.okex.com'
 
-bot.command('p', (ctx) => {
-    console.log(ctx.message);
-    ctx.reply('dddd');
+async function price(coin = 'btc') {
+    
+}
+
+bot.command('p', async (ctx) => {
+    const { message } = ctx;
+    let { text } = message;
+
+    text = text.trim().replace(/\s*/, '');
+
+    const coin = text.slice(2);
+
+    const api = `${baseUrl}/v2/spot/markets/ticker?symbol=${coin.toUpperCase()}_USDT`;
+    const response = await got.get(api, {
+        responseType: 'json'
+    });
+    const data = response.body.data;
+    
+    ctx.replyWithHTML(`<div>last: ${data.close}</div><br/><a href="${baseUrl}/spot/trade/${coin}_usdt">Trade on OKEx</a>`);
 })
 
 bot.launch();
