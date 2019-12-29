@@ -10,7 +10,7 @@ bot.use((ctx, next) => {
   return next();
 });
 
-async function getCoinInfo() {
+async function getCoinInfo(text) {
   text = text.trim().replace(/\s*/, '');
   const coin = text.slice(2).trim();
 
