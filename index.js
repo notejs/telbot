@@ -41,8 +41,7 @@ bot.command('p', async (ctx) => {
     disable_web_page_preview: true,
     parse_mode: 'html',
     reply_markup: Markup.inlineKeyboard([
-      Markup.urlButton('Go to OKEx', baseUrl),
-      Markup.callbackButton('refresh')
+      Markup.urlButton('Go to OKEx', baseUrl)
     ])
   });
 });
