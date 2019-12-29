@@ -33,10 +33,7 @@ bot.on('sticker', (ctx) => ctx.reply('👍'));
 
 // 文本监听
 bot.hears(/^\s*p\s+.*/, async (ctx) => {
-  console.log(ctx.message)
-
-  const { message } = ctx;
-  let { text } = message;
+  let { text } = ctx;
 
   const information = await getCoinInfo(text);
 
@@ -57,6 +54,7 @@ bot.command(['ok', 'okex'], Telegraf.reply(baseUrl, {
 // 价格指令
 bot.command('p', async (ctx) => {
   const { message } = ctx;
+  console.log(message)
   let { text } = message;
 
   const information = await getCoinInfo(text);
