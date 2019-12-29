@@ -10,18 +10,7 @@ bot.use((ctx, next) => {
   return next();
 });
 
-bot.start((ctx) => ctx.reply('Welcome'));
-bot.help((ctx) => ctx.reply('Send me a sticker'));
-bot.on('sticker', (ctx) => ctx.reply('👍'));
-bot.hears('hi', (ctx) => ctx.reply('Hey there'));
-
-bot.command(['ok', 'okex'], Telegraf.reply(baseUrl, {
-  disable_web_page_preview: true
-}));
-
-bot.command('p', async (ctx) => {
-  const { message } = ctx;
-  let { text } = message;
+async function getCoinInfo() {
   text = text.trim().replace(/\s*/, '');
   const coin = text.slice(2).trim();
 
@@ -36,8 +25,20 @@ bot.command('p', async (ctx) => {
     const data = response.body.data;
     responseText = `<b>last: ${data.close}</b>\n<a href="${baseUrl}/spot/trade/${coin}_usdt">Trade BTC on OKEx</a>`;
   }
+}
 
-  ctx.reply(responseText, {
+bot.start((ctx) => ctx.reply('Welcome'));
+bot.help((ctx) => ctx.reply('Send me a sticker'));
+bot.on('sticker', (ctx) => ctx.reply('👍'));
+
+// 文本监听
+bot.hears(/^\s*p\s+.*/, async (ctx) => {
+  const { message } = ctx;
+  let { text } = message;
+
+  const information = await getCoinInfo(text);
+
+  ctx.reply(information, {
     disable_web_page_preview: true,
     parse_mode: 'html',
     reply_markup: Markup.inlineKeyboard([
@@ -46,7 +47,28 @@ bot.command('p', async (ctx) => {
   });
 });
 
+// OKEx官网
+bot.command(['ok', 'okex'], Telegraf.reply(baseUrl, {
+  disable_web_page_preview: true
+}));
 
+// 价格指令
+bot.command('p', async (ctx) => {
+  const { message } = ctx;
+  let { text } = message;
+
+  const information = await getCoinInfo(text);
+
+  ctx.reply(information, {
+    disable_web_page_preview: true,
+    parse_mode: 'html',
+    reply_markup: Markup.inlineKeyboard([
+      Markup.urlButton('Go to OKEx', baseUrl)
+    ])
+  });
+});
+
+// 彩蛋
 bot.command('fuck', (ctx) => {
   ctx.reply('great!');
 });
