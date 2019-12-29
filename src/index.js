@@ -33,6 +33,8 @@ bot.on('sticker', (ctx) => ctx.reply('👍'));
 
 // 文本监听
 bot.hears(/^\s*p\s+.*/, async (ctx) => {
+  console.log(ctx.message)
+
   const { message } = ctx;
   let { text } = message;
 
