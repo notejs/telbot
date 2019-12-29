@@ -1,11 +1,13 @@
 const Telegraf = require('telegraf');
 const got = require('got');
+const Markup = require('telegraf/markup')
+
+const baseUrl = 'https://www.okex.com';
 
 const bot = new Telegraf('985672071:AAHJXvPK1EUuPl9Nxv1evMDXCCcLKUC8qzY')
 
-
 bot.use((ctx, next) => {
-    return next();
+  return next();
 });
 
 bot.start((ctx) => ctx.reply('Welcome'));
@@ -13,35 +15,39 @@ bot.help((ctx) => ctx.reply('Send me a sticker'));
 bot.on('sticker', (ctx) => ctx.reply('👍'));
 bot.hears('hi', (ctx) => ctx.reply('Hey there'));
 
-bot.command('okex', Telegraf.reply('https://www.okex.com'));
-
-const baseUrl = 'https://www.okex.com'
-
-async function price(coin = 'btc') {
-    
-}
+bot.command(['ok', 'okex'], Telegraf.reply(baseUrl, {
+  disable_web_page_preview: true
+}));
 
 bot.command('p', async (ctx) => {
-    const { message } = ctx;
-    let { text } = message;
+  const { message } = ctx;
+  let { text } = message;
+  text = text.trim().replace(/\s*/, '');
+  const coin = text.slice(2).trim();
 
-    text = text.trim().replace(/\s*/, '');
+  let responseText = `Please input "/p coin-name", for example "/p btc". \n<a href="https://www.okex.com">You can Trade Crypto Currency on OKEx</a>`;
 
-    const coin = text.slice(2).trim();
-
+  if (coin) {
     const api = `${baseUrl}/v2/spot/markets/ticker?symbol=${coin.toUpperCase()}_USDT`;
-    console.log(api);
-   
     const response = await got.get(api, {
-        responseType: 'json'
+      responseType: 'json'
     });
-    
-    console.log(response.body);
+
     const data = response.body.data;
-    
-    ctx.replyWithHTML(`<b>last: ${data.close}</b>\n<a href="${baseUrl}/spot/trade/${coin}_usdt">Trade on OKEx</a>`, {
-        disable_web_page_preview: true
-    });
+    responseText = `<b>last: ${data.close}</b>\n<a href="${baseUrl}/spot/trade/${coin}_usdt">Trade BTC on OKEx</a>`;
+  }
+
+  ctx.reply(responseText, {
+    disable_web_page_preview: true,
+    parse_mode: 'html',
+    reply_markup: Markup.inlineKeyboard([
+      Markup.urlButton('Go to OKEx', baseUrl),
+      Markup.callbackButton('refresh')
+    ])
+  });
 });
+
+
+bot.command()
 
 bot.launch();
