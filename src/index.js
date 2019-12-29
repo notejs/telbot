@@ -10,7 +10,7 @@ bot.use((ctx, next) => {
   return next();
 });
 
-async function getCoinInfo(text) {
+async function getCoinInfo(text = '') {
   text = text.trim().replace(/\s*/, '');
   const coin = text.slice(2).trim();
 
@@ -34,7 +34,8 @@ bot.on('sticker', (ctx) => ctx.reply('👍'));
 
 // 文本监听
 bot.hears(/^\s*p\s+.*/, async (ctx) => {
-  let { text } = ctx;
+  const { message } = ctx;
+  let { text } = message;
 
   const information = await getCoinInfo(text);
 
