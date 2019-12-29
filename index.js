@@ -48,6 +48,8 @@ bot.command('p', async (ctx) => {
 });
 
 
-bot.command()
+bot.command('fuck', (ctx) => {
+  ctx.reply('great!');
+});
 
 bot.launch();
