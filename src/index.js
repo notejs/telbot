@@ -25,6 +25,7 @@ async function getCoinInfo(text) {
     const data = response.body.data;
     responseText = `<b>last: ${data.close}</b>\n<a href="${baseUrl}/spot/trade/${coin}_usdt">Trade BTC on OKEx</a>`;
   }
+  return responseText;
 }
 
 bot.start((ctx) => ctx.reply('Welcome'));
