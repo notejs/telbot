@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "got": "^10.2.0",
+    "got": "^11.8.5",
     "telegraf": "^3.34.1"
   }
 }
